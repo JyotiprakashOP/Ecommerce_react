@@ -1,0 +1,49 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.navbar {
+  box-shadow: 0 10px 10px -10px grey;
+}
+
+.footerLink {
+  text-decoration: none;
+  font-size: 0.7rem;
+  color: whitesmoke;
+}
+.footer {
+  background: linear-gradient(90deg, grey, black);
+  padding: 0.2rem;
+}
+/* Privesy policy */
+.policyPoints {
+  color: rgb(10, 141, 228);
+}
+
+/* register page */
+
+.registerForm {
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: center;
+  align-items: center;
+  row-gap: 20px;
+}
+.gradient {
+  background-image: linear-gradient(90deg, rgb(30, 255, 240), rgb(191, 0, 255), yellow);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+     
+}
+
+/* loginPAge */
+.loginForm{
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: center;
+  align-items: center;
+  row-gap: 20px; 
+}
