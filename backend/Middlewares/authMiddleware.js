@@ -7,7 +7,8 @@ import jwt from "jsonwebtoken"
 // Protected routes token-based
 export const requireSignIn = async (req, res, next) => {
     try {
-        const decode = await jwt.verify(req.headers.authorization, process.env.Jwt_SECRET);
+        const decode = jwt.verify(req.headers.authorization, process.env.Jwt_SECRET);
+        req.user = decode;
         next();
     } catch (error) {
         console.log(error);
@@ -18,11 +19,14 @@ export const requireSignIn = async (req, res, next) => {
 //admin access
 export const isAdmin = async (req,res,next)=>{
     try {
-        const user = await userModel.findById(req.user._id)
+        const user = await userModel.findById(req.newUser._id)
         if(!user.role !== 1){
-
+            return res.status(401).send({success : false,message : 'unauthorized access'})
+        }else{
+            next()
         }
     } catch (error) {
-        
+        console.log(error)
+        res.status(401).send({success : false, error, message : 'Error in admin middleware'})
     }
 }

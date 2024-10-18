@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import {useNavigate} from "react-router-dom"
 
+
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
