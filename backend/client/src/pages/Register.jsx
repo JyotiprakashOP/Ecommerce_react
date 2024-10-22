@@ -13,13 +13,14 @@ function Register() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [address,setAddress] = useState('')
+  const [answer,setAnswer] = useState('')
   const navigate = useNavigate()
 
 
   const submitHandler= async ()=>{
     
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API}/auth/signup`, { name, email, phone, password, address });
+      const res = await axios.post(`${process.env.REACT_APP_API}/auth/signup`, { name, email, phone, password, address, answer });
 
       if(res.data.success){
         toast.success(res.data.message)
@@ -86,6 +87,14 @@ function Register() {
                 variant="standard"
                 value={address}
                 onChange={(e)=>setAddress(e.target.value)}
+                required
+              />
+              <TextField
+                id="standard-basic"
+                label="Tell me your pet name"
+                variant="standard"
+                value={answer}
+                onChange={(e)=>setAnswer(e.target.value)}
                 required
               />
 

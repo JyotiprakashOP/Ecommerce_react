@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res) => {
     try {
-        const { name, email, password, phone, address } = req.body;
+        const { name, email, password, phone, address, answer } = req.body;
         
         // Validations
         if (!name) {
@@ -22,6 +22,9 @@ export const signup = async (req, res) => {
         if (!address) {
             return res.status(400).json({ message: 'Address is required' });
         }
+        if (!answer) {
+            return res.status(400).json({ message: 'Answer is required' });
+        }
 
         // Check for existing user
         const existingUser = await userModel.findOne({ email });
@@ -30,7 +33,7 @@ export const signup = async (req, res) => {
         }
 
         // Create new user
-        const newUser = new userModel({ name, email, password, phone, address });
+        const newUser = new userModel({ name, email, password, phone, address,answer });
         newUser.password = await bcrypt.hash(password, 10); // Hash the password
 
         // Save the new user
@@ -87,3 +90,36 @@ export const login = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error.', success: false });
     }
 };
+
+
+//forgot password controller
+
+export const forgotPasswordController = async(req,res)=>{
+    try {
+        const {email,answer,newPassword} = req.body
+        if(!email){
+            res.status(400).json    ({message : 'Email is required'})
+        }
+        if(!answer){
+            res.status(400).json({message : 'Answer is required'})
+        }
+        if(!newPassword){
+            res.status(400).json({message : 'New Password is required'})
+        }
+        //check email and answer
+        const user = await userModel.findOne({email,answer})
+        //validation
+        if(!user){
+            return res.status(404).json({
+                success : false,
+                message : 'Wrong email or answer'
+            })
+        }
+        const hashed = await bcrypt.hash(newPassword, 10)
+        await userModel.findByIdAndUpdate(user._id,{password : hashed})
+        res.status(200).json({success: true,message : 'Password updated succesfully'})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message : "something went wrong",success : false,error})   
+    }
+}

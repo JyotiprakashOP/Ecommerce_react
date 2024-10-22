@@ -5,31 +5,29 @@ import { Button } from "@mui/material";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/auth";
 
-function Login() {
+
+function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [auth, setAuth] = useAuth();
+  const [newPassword, setNewPassword] = useState("");
+  const [answer,setAnswer] = useState("");
+  
 
   const navigate = useNavigate();
 
   const loginHandler = async () => {
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API}/auth/login`, {
+      const res = await axios.post(`${process.env.REACT_APP_API}/auth/forgot-password`, {
         email,
-        password,
+        newPassword,
+        answer
       });
 
       if (res && res.data.success) {
-        setAuth({
-          ...auth,
-          user: res.data.name,
-          token: res.data.jwtToken,
-        });
+        
         toast.success("Login successful!");
-        localStorage.setItem("auth",JSON.stringify(res.data))
-        navigate("/");
+       
+        navigate("/login");
       } else {
         toast.error(res.data.message || "Login failed");
       }
@@ -43,7 +41,7 @@ function Login() {
     <Layout>
       <div className="container">
         <div
-          className="row loginForm"
+          className="row forgotPassword"
           style={{ paddingLeft: "15rem", paddingRight: "15rem" }}
         >
           <div>
@@ -58,18 +56,28 @@ function Login() {
           <div>
             <TextField
               variant="outlined"
-              label="Enter your password"
+              label="Enter your new password"
               type="password"
               fullWidth
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Enter your pet name"
+              type="text"
+              fullWidth
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
             />
           </div>
           <div>
             <Button variant="contained" className="bg-success" onClick={loginHandler}>
-              Login
+              Reset
             </Button>
-            <span style={{marginLeft: '25rem',cursor:"pointer",color:'green'}} onClick={()=>{navigate("/forgot-password")}}>Forgot password ?</span>
+           
           </div>
         </div>  
       </div>
@@ -77,4 +85,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ForgotPassword;

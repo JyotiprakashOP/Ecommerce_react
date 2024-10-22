@@ -47,3 +47,13 @@
   align-items: center;
   row-gap: 20px; 
 }
+
+.forgotPassword{
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: center;
+  align-items: center;
+  row-gap: 20px; 
+  
+}
